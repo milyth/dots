@@ -1,0 +1,33 @@
+#!/bin/bash
+set -eo pipefail
+
+_help () 
+{
+	echo "usage: $(basename $0) <COMMAND>
+Commands:
+	fullscreen: takes a screen shot of the screen
+	area: select a area to screenshot"
+	exit 1
+}
+
+XDG_PICTURES_DIR=${XDG_PICTURES_DIR:-/tmp}
+test -d $XDG_PICTURES_DIR/Screenshots || mkdir -p ${XDG_PICTURES_DIR}/Screenshots
+fileName=$(date "+Screenshot %m-%d-%Y %I:%M:%S %h.png")
+out="$XDG_PICTURES_DIR/Screenshots/${fileName}"
+
+if test -f "$out"
+then
+	out="${out/.png/ ${RAND}.png}"
+fi
+
+[ "$#" != 1 ] && _help
+case "${1}" in
+	area) grim -g "$(slurp -b '#282828aa')" - | tee "$out" | wl-copy -t image/png ;;
+	fullscreen) grim - | tee "$out" | wl-copy -t image/png ;;
+	*) _help ;;
+esac
+
+
+test -f "$out"
+notify-send -i "${out}" "OS - Took a screenshot" "Saved into $(basename "$out")"  
+

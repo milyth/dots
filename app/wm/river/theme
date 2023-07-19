@@ -1,0 +1,24 @@
+#!/bin/bash
+set -eu
+
+#> dep: gnome-settings-daemon
+#> dep: river
+
+cursor_theme=Breeze_Hacked_White
+cursor_size=16
+gtk_theme=adw-gtk3-dark
+icon_theme=Papirus-Dark
+font_name="IBM Plex Sans 10"
+monofont_name="Roboto Mono 11"
+gnome_schema="org.gnome.desktop.interface"
+
+pgrep -x gsd-xsettings || /usr/libexec/gsd-xsettings &
+
+gsettings set "$gnome_schema" gtk-theme "$gtk_theme"
+gsettings set "$gnome_schema" icon-theme "$icon_theme"
+gsettings set "$gnome_schema" cursor-theme "$cursor_theme"
+gsettings set "$gnome_schema" cursor-size "$cursor_size"
+gsettings set "$gnome_schema" font-name "$font_name"
+gsettings set "$gnome_schema" monospace-font-name "$monofont_name"
+riverctl xcursor-theme $cursor_theme $cursor_size
+

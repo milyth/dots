@@ -1,0 +1,101 @@
+#!/bin/bash
+set -eu
+
+# Sandbar blocks
+# DEPS: 
+# - wireplumber
+# - pulseaudio-utils
+# PS: Falacias argumetativas
+# PS: Nada mais temporario, que uma gambiarra temporaria ~= alunos do Senai
+
+cache_file="${XDG_RUNTIME_DIR}/blocks-0"
+text_vol=""
+text_date=""
+display=eDP-1
+
+[ -e $cache_file ] && rm -f $cache_file
+mkfifo $cache_file
+
+update ()
+{
+	echo "$1 $2" > $cache_file	
+}
+
+widget_vol () 
+{
+	vol=0
+
+	while :
+	do
+		if pgrep -x wireplumber
+		then
+			sleep 1.5
+			break
+		fi
+
+		sleep 1
+	done
+
+	getvol () 
+	{
+		vol=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}')
+	}
+
+	format_icon ()
+	{
+		p=$1
+
+		case 1
+			in
+			$((p<= 10))) echo "󰕿";;
+			$((p<= 20))) echo "󰖀";;
+			$((p<= 50))) echo "󰖀";;
+			$((p<= 90))) echo "󰕾";;
+			*) echo "..."
+		esac
+	}
+
+	getvol
+	update text_vol "$(format_icon $vol) $vol%"
+
+	while read -r _
+	do
+		getvol
+		update text_vol "$(format_icon $vol) $vol%"
+	done < <(pactl subscribe | grep --line-buffered "sink")
+
+}
+
+widget_date () 
+{
+	while : 
+	do
+		update text_date "󰃮 $(date +"%y-%m-%d 󰅐 %I:%M %p")"
+		sleep 60
+	done
+}
+
+refresh_task () {
+	exec 9< $cache_file
+
+	while : 
+	do
+		if read -u 9 -r line
+		then
+			name=$(cut -d ' ' -f 1 <<< "$line")
+			value=$(cut -d ' ' -f 2- <<< "$line")
+
+			eval "$name=\"$value\""
+			echo -n -e "set: $name=$value\r"
+			text="$text_date $text_vol"
+
+			echo "${display} status $text" > "$XDG_RUNTIME_DIR/sandbar-0"
+		fi
+	done
+}
+
+refresh_task &
+widget_vol &
+widget_date &
+wait
+

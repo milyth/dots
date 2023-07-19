@@ -1,0 +1,33 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+[[ -r ~/.local/share/znap/znap.zsh ]] ||
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git ~/.local/share/znap
+
+source ~/.local/share/znap/znap.zsh  # Start Znap
+
+export PATH="${HOME}/.local/bin:$PATH"
+export PATH="${HOME}/.cargo/bin:$PATH"
+export XDG_RUNTIME_DIR=/tmp/xdg-$UID
+test -d $XDG_RUNTIME_DIR || mkdir -p $XDG_RUNTIME_DIR
+
+alias ls='ls --color=always'
+alias ll='ls -l'
+
+setopt autocd beep extendedglob nomatch notify
+bindkey -e
+
+zstyle ':completion:*' menu select
+zstyle :compinstall filename "${HOME}/.zshrc"
+autoload -Uz compinit
+compinit
+
+# Plugins
+znap install zsh-users/zsh-completions
+znap prompt agkozak/agkozak-zsh-prompt
+znap source zsh-users/zsh-autosuggestions
+znap source marlonrichert/zsh-autocomplete
+
+[ $(tty) = "/dev/tty1" ] && exec dbus-launch river || true

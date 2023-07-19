@@ -1,0 +1,10 @@
+#!/bin/bash
+set -eu pipefail
+
+class() {
+	shift
+	riverctl list-inputs | grep "pointer" | xargs -I '{}' riverctl input '{}' $@ ;
+}
+
+class "pointer" pointer-accel -0.8
+riverctl keyboard-layout -variant intl us

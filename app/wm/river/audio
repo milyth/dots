@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Abaixa o som, que la vem pedrada
+
+
+ true "${XDG_CONFIG_HOME:=${HOME}/.config}"
+
+if ! test -L "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d/10-wireplumber.conf"
+then
+ mkdir -p "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d"
+ ln -s /usr/share/examples/wireplumber/10-wireplumber.conf "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d/"
+fi
+
+pkill -TERM wireplumber 
+pkill -TERM pipewire 
+pkill -TERM xdg-desktop-por
+
+pgrep -x pipewire        || (pipewire &)
+pgrep -x pipewire-pulse  || (pipewire-pulse &)
+
+pgrep xdg-desktop-por || {
+	pgrep -x wireplumber || exec $0
+
+	/usr/libexec/xdg-desktop-portal &
+	/usr/libexec/xdg-desktop-portal-gtk &
+	/usr/libexec/xdg-desktop-portal-wlr &
+}
+

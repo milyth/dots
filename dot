@@ -1,0 +1,88 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "@ targetConfig: ${XDG_CONFIG_HOME:=${HOME}/.config}"
+
+declare -A payload=(
+	["app/dev/git"]="${XDG_CONFIG_HOME}/git"
+	["app/wm/river"]="${XDG_CONFIG_HOME}/river"
+	["app/term/foot"]="${XDG_CONFIG_HOME}/foot"
+	["app/etc/fontconfig"]="${XDG_CONFIG_HOME}/fontconfig"
+	["app/shell/zsh/config"]="${HOME}/.zshrc"
+)
+
+
+DoInstall () 
+{
+	echo "==> Installing..."
+
+	for key in ${!payload[@]}
+	do
+		value="${payload[$key]}"
+		printf " = wait: $(basename $key)\r"
+
+		if test -e $value 
+		then
+			printf " = err \r"
+			true
+		else
+			ln -s "$(realpath $key)" "$value"
+			printf " = ok  \r"
+		fi
+
+		echo
+	done
+}
+
+DoUninstall () 
+{
+	echo "==> Uninstalling..."
+
+	for key in ${!payload[@]}
+	do
+		value="${payload[$key]}"
+		printf " = wait: $(basename $key)\r"
+
+		if test -e $value 
+		then
+			unlink $value
+			printf " = ok  \r"
+		else
+			printf " = err \r"
+		fi
+
+		echo
+	done
+}
+
+DoList () 
+{
+	echo "==> Listing..."
+
+	for key in ${!payload[@]}
+	do
+		value="${payload[$key]}"
+		
+
+		printf " %30s <-- %s\n" "$value" "$key"
+	done
+}
+
+case "${1:-help}" in
+	install)
+		shift 
+		DoInstall "$@" ;;
+	uninstall)
+		shift
+		DoUninstall "$@" ;;
+	list)
+		DoList "$@" ;;
+	*)
+		echo "
+dot v0.1.0 - Manage dotfiles
+COMMANDS:
+	install) Install dotfiles 
+	uninstall) Uninstall dotfiles
+	list) List dotfiles"
+		;;
+esac

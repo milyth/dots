@@ -1,0 +1,9 @@
+#!/bin/sh
+
+FIFO="$XDG_RUNTIME_DIR/sandbar-0"
+
+[ -e "$FIFO" ] && rm -f "$FIFO"
+mkfifo "$FIFO"
+
+while cat "$FIFO"; do :; done | sandbar -font "JetBrains Mono"
+

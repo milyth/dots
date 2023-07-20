@@ -9,8 +9,8 @@ set -eu
 # PS: Nada mais temporario, que uma gambiarra temporaria ~= alunos do Senai
 
 cache_file="${XDG_RUNTIME_DIR}/blocks-0"
-text_vol=""
-text_date=""
+text_vol="..."
+text_date="..."
 display=eDP-1
 
 [ -e $cache_file ] && rm -f $cache_file

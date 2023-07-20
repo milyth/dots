@@ -9,6 +9,7 @@ declare -A payload=(
 	["app/term/foot"]="${XDG_CONFIG_HOME}/foot"
 	["app/etc/fontconfig"]="${XDG_CONFIG_HOME}/fontconfig"
 	["app/shell/zsh/config"]="${HOME}/.zshrc"
+	["app/etc/user-dirs"]="${XDG_CONFIG_HOME}/user-dirs.dirs"
 )
 
 
@@ -64,7 +65,7 @@ DoList ()
 		value="${payload[$key]}"
 		
 
-		printf " %30s <-- %s\n" "$value" "$key"
+		printf " %40s <-- %s\n" "$value" "$key"
 	done
 }
 

@@ -2,19 +2,34 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
+ASDF_DIR="${HOME}/.local/share/asdf"
+
 [[ -r ~/.local/share/znap/znap.zsh ]] ||
     git clone --depth 1 -- \
         https://github.com/marlonrichert/zsh-snap.git ~/.local/share/znap
 
 source ~/.local/share/znap/znap.zsh  # Start Znap
 
+[[ -r ${ASDF_DIR} ]] ||
+	git clone https://github.com/asdf-vm/asdf.git \
+		${ASDF_DIR} --branch v0.12.0
+
+source "$ASDF_DIR/asdf.sh"
+fpath=(${ASDF_DIR}/completions $fpath)
+
 export PATH="${HOME}/.local/bin:$PATH"
 export PATH="${HOME}/.cargo/bin:$PATH"
+export PATH="${HOME}/.nimble/bin:$PATH"
+export GPG_TTY=$(tty)
+
 export XDG_RUNTIME_DIR=/tmp/xdg-$UID
 test -d $XDG_RUNTIME_DIR || mkdir -p $XDG_RUNTIME_DIR
 
 alias ls='ls --color=always'
 alias ll='ls -l'
+alias gp='git push'
+alias gcm='git commit -m'
+alias gap='git add -A'
 
 setopt autocd beep extendedglob nomatch notify
 bindkey -e

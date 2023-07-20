@@ -1,0 +1,4 @@
+#!/bin/bash
+
+riverctl rule-add tag -app-id foot     1
+riverctl rule-add tag -app-id chromium 2

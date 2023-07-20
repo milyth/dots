@@ -8,3 +8,5 @@ class() {
 
 class "pointer" pointer-accel -0.8
 riverctl keyboard-layout -variant intl us
+riverctl set-repeat 50 300
+

@@ -91,6 +91,8 @@ refresh_task () {
 
 			echo "${display} status $text" > "$XDG_RUNTIME_DIR/sandbar-0"
 		fi
+		
+		sleep 0.5
 	done
 }
 

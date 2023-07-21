@@ -1,0 +1,21 @@
+import:
+  - ~/.config/alacritty/kanagawa_wave.yaml
+
+window:
+  padding:
+    x: 5
+    y: 0
+  dynamic_padding: false 
+
+font:
+  normal:
+    family: JetBrains Mono
+  offset:
+    y: 4
+    x: 0
+  size: 12
+
+cursor:
+  style:
+    shape: Beam
+    blinking: Always

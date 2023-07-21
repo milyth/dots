@@ -1,0 +1,2 @@
+#!/bin/bash
+exec env XCURSOR_THEME="capitaine-cursors" XCURSOR_SIZE=16 river

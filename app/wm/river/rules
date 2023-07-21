@@ -1,5 +1,6 @@
 #!/bin/bash
+set -eux
 
-riverctl rule-add tag -app-id foot          1
-riverctl rule-add tag -app-id chromium      2
-riverctl rule-add tag -title "*Code - OSS*" 4
+riverctl rule-add tag -app-id kitty 1
+riverctl rule-add tag -app-id chromium 2
+riverctl rule-add tag -app-id "*Code*" 4

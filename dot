@@ -7,24 +7,21 @@ declare -A payload=(
 	["app/dev/git"]="${XDG_CONFIG_HOME}/git"
 	["app/wm/river"]="${XDG_CONFIG_HOME}/river"
 	["app/term/foot"]="${XDG_CONFIG_HOME}/foot"
+	["app/term/kitty"]="${XDG_CONFIG_HOME}/kitty"
 	["app/etc/fontconfig"]="${XDG_CONFIG_HOME}/fontconfig"
 	["app/shell/zsh/config"]="${HOME}/.zshrc"
 	["app/etc/user-dirs"]="${XDG_CONFIG_HOME}/user-dirs.dirs"
-	["app/etc/pipewire"]="${XDG_CONFIG_HOME}/pipewire"
+	#	["app/etc/pipewire"]="${XDG_CONFIG_HOME}/pipewire"
 )
 
-
-DoInstall () 
-{
+DoInstall() {
 	echo "==> Installing..."
 
-	for key in ${!payload[@]}
-	do
+	for key in ${!payload[@]}; do
 		value="${payload[$key]}"
 		printf " = wait: $(basename $key)\r"
 
-		if test -e $value 
-		then
+		if test -e $value; then
 			printf " = err \r"
 			true
 		else
@@ -36,17 +33,14 @@ DoInstall ()
 	done
 }
 
-DoUninstall () 
-{
+DoUninstall() {
 	echo "==> Uninstalling..."
 
-	for key in ${!payload[@]}
-	do
+	for key in ${!payload[@]}; do
 		value="${payload[$key]}"
 		printf " = wait: $(basename $key)\r"
 
-		if test -e $value 
-		then
+		if test -e $value; then
 			unlink $value
 			printf " = ok  \r"
 		else
@@ -57,34 +51,34 @@ DoUninstall ()
 	done
 }
 
-DoList () 
-{
+DoList() {
 	echo "==> Listing..."
 
-	for key in ${!payload[@]}
-	do
+	for key in ${!payload[@]}; do
 		value="${payload[$key]}"
-		
 
 		printf " %40s <-- %s\n" "$value" "$key"
 	done
 }
 
 case "${1:-help}" in
-	install)
-		shift 
-		DoInstall "$@" ;;
-	uninstall)
-		shift
-		DoUninstall "$@" ;;
-	list)
-		DoList "$@" ;;
-	*)
-		echo "
+install)
+	shift
+	DoInstall "$@"
+	;;
+uninstall)
+	shift
+	DoUninstall "$@"
+	;;
+list)
+	DoList "$@"
+	;;
+*)
+	echo "
 dot v0.1.0 - Manage dotfiles
 COMMANDS:
 	install) Install dotfiles 
 	uninstall) Uninstall dotfiles
 	list) List dotfiles"
-		;;
+	;;
 esac

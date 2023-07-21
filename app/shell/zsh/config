@@ -20,10 +20,12 @@ fpath=(${ASDF_DIR}/completions $fpath)
 export PATH="${HOME}/.local/bin:$PATH"
 export PATH="${HOME}/.cargo/bin:$PATH"
 export PATH="${HOME}/.nimble/bin:$PATH"
+export PATH="${HOME}/.cargo/bin:$PATH"
+
 export GPG_TTY=$(tty)
 
-export XDG_RUNTIME_DIR=/tmp/xdg-$UID
-test -d $XDG_RUNTIME_DIR || mkdir -p $XDG_RUNTIME_DIR
+# export XDG_RUNTIME_DIR=/tmp/xdg-$UID
+# test -d $XDG_RUNTIME_DIR || mkdir -p $XDG_RUNTIME_DIR
 
 alias ls='ls --color=always'
 alias ll='ls -l'
@@ -35,14 +37,21 @@ setopt autocd beep extendedglob nomatch notify
 bindkey -e
 
 zstyle ':completion:*' menu select
+# bindkey -M menuselect '\r' .accept-line
 zstyle :compinstall filename "${HOME}/.zshrc"
 autoload -Uz compinit
 compinit
 
+# Settings
+PURE_PROMPT_SYMBOL='$'
+
 # Plugins
 znap install zsh-users/zsh-completions
-znap prompt agkozak/agkozak-zsh-prompt
+znap prompt sindresorhus/pure
+znap source zdharma-continuum/fast-syntax-highlighting
 znap source zsh-users/zsh-autosuggestions
-znap source marlonrichert/zsh-autocomplete
 
-[ $(tty) = "/dev/tty1" ] && exec dbus-launch river || true
+export _JAVA_AWT_WM_NONREPARENTING=1
+source ~/.config/user-dirs.dirs
+
+[ $(tty) = "/dev/tty1" ] && exec sh ~/.config/river/start || true

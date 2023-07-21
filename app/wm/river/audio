@@ -1,18 +1,15 @@
 #!/bin/sh
 
 # Abaixa o som, que la vem pedrada
+# USE ONLY in Non-systemd systems
 
 true "${XDG_CONFIG_HOME:=${HOME}/.config}"
 
- ln -s /usr/share/examples/wireplumber/10-wireplumber.conf "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d/"
- ln -s /usr/share/examples/pipewire/20-pipewire-pulse.conf "${XDG_CONFIG_HOME}/pipewire/pipewire.conf.d/"
-
-pkill -TERM wireplumber 
-pkill -TERM pipewire 
+pkill -TERM wireplumber
+pkill -TERM pipewire
 pkill -TERM xdg-desktop-por
 
-pgrep -x pipewire        || (pipewire &)
-# pgrep -x pipewire-pulse  || (pipewire-pulse &)
+pgrep -x pipewire || (pipewire &)
 
 pgrep xdg-desktop-por || {
 	pgrep -x wireplumber || exec $0
@@ -21,4 +18,3 @@ pgrep xdg-desktop-por || {
 	/usr/libexec/xdg-desktop-portal-gtk &
 	/usr/libexec/xdg-desktop-portal-wlr &
 }
-

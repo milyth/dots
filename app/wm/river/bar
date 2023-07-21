@@ -5,5 +5,6 @@ FIFO="$XDG_RUNTIME_DIR/sandbar-0"
 [ -e "$FIFO" ] && rm -f "$FIFO"
 mkfifo "$FIFO"
 
-while cat "$FIFO"; do :; done | sandbar -font "JetBrains Mono"
-
+while cat "$FIFO"; do :; done | sandbar \
+  -font "JetBrains Mono"  -inactive-bg-color '#1F1F28' -active-bg-color '#76946A' \
+  -title-bg-color '#76946A' -title-fg-color '#16161D' -active-fg-color '#16161D'   

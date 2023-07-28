@@ -3,4 +3,6 @@ set -eux
 
 riverctl rule-add tag -app-id kitty 1
 riverctl rule-add tag -app-id chromium 2
+riverctl rule-add float -app-id jetbrains-studio
+riverctl rule-add tag -app-id jetbrains-studio 4
 riverctl rule-add tag -app-id "*Code*" 4

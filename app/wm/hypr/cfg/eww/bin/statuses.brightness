@@ -1,0 +1,33 @@
+#!/bin/bash
+level=0
+lastWasMe=false
+
+getbright() {
+	level=$(brightnessctl i -m | cut -f 4 -d , | cut -f 1 -d %)
+}
+
+format_icon() {
+	p=$1
+
+	case 1 in
+	$((p <= 20))) echo "󰃞" ;;
+	$((p <= 40))) echo "󰃝" ;;
+	$((p <= 50))) echo "󰃟" ;;
+	$((p <= 100))) echo "󰃠" ;;
+	*) echo "?" ;;
+	esac
+}
+
+getbright
+echo "{ \"icon\": \"$(format_icon $level)\", \"value\": $level }"
+
+while read -r _; do
+	if $lastWasMe; then
+		lastWasMe=false
+		continue
+	fi
+
+	getbright
+	echo "{ \"icon\": \"$(format_icon $level)\", \"value\": $level }"
+	lastWasMe=true
+done < <(inotifywait /sys/class/backlight/intel_backlight/max_brightness -e open -mq)

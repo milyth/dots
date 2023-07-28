@@ -20,6 +20,7 @@ gsettings set "$gnome_schema" cursor-theme "$cursor_theme"
 gsettings set "$gnome_schema" cursor-size "$cursor_size"
 gsettings set "$gnome_schema" font-name "$font_name"
 gsettings set "$gnome_schema" monospace-font-name "$monofont_name"
+gsettings set "$gnome_schema" color-scheme prefer-dark
 riverctl xcursor-theme $cursor_theme $cursor_size
 
 # Set background and border color

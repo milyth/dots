@@ -1,7 +1,7 @@
 #!/bin/bash
 
 riverctl map normal Super+Shift Return spawn 'kitty -1'
-riverctl map normal Super D spawn 'rofi -show drun'
+riverctl map normal Super D spawn 'wofi --show drun -I -p ""'
 riverctl map normal Super+Control Q close
 
 # Super+Shift+E to exit river
@@ -132,18 +132,19 @@ for mode in normal locked; do
 	riverctl map $mode None XF86MonBrightnessDown spawn 'light -U 5'
 done
 
-# Set the default layout generator to be rivertile and start it.
-# River will send the process group of the init executable SIGTERM on exit.
-riverctl default-layout rivertile
-rivertile -view-padding 0 -outer-padding 0 &
-
 ~/.config/river/input &
 ~/.config/river/bar &
 ~/.config/river/blocks &
 ~/.config/river/theme &
 ~/.config/river/rules &
 
-riverctl spawn "mako"
-dbus-update-activation-environment --systemd DESKTOP_SESSION XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CONFIG_DIRS
+riverctl spawn "systembus-notify"
+systemctl --user import-environment WAYLAND_DISPLAY
 systemctl --user set-environment XDG_CURRENT_DESKTOP=river
+systemctl --user start mako
+dbus-update-activation-environment --systemd DESKTOP_SESSION XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE
+
+# Set the default layout generator to be rivertile and start it.
+# River will send the process group of the init executable SIGTERM on exit.
+riverctl default-layout rivertile
+rivertile -view-padding 0 -outer-padding 0 &

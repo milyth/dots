@@ -9,8 +9,8 @@ set -eu
 # PS: Nada mais temporario, que uma gambiarra temporaria ~= alunos do Senai
 
 cache_file="${XDG_RUNTIME_DIR}/blocks-0"
-text_vol="..."
-text_date="..."
+text_vol="#####"
+text_date="##-##-##"
 display=eDP-1
 
 [ -e $cache_file ] && rm -f $cache_file
@@ -43,8 +43,8 @@ widget_vol() {
 		$((p <= 10))) echo "󰕿" ;;
 		$((p <= 20))) echo "󰖀" ;;
 		$((p <= 50))) echo "󰖀" ;;
-		$((p <= 90))) echo "󰕾" ;;
-		*) echo "..." ;;
+		$((p <= 100))) echo "󰕾" ;;
+		*) echo "?" ;;
 		esac
 	}
 
@@ -74,8 +74,8 @@ refresh_task() {
 			value=$(cut -d ' ' -f 2- <<<"$line")
 
 			eval "$name=\"$value\""
-			echo -n -e "set: $name=$value\r"
 			text="$text_date $text_vol"
+			echo $text
 
 			echo "${display} status $text" >"$XDG_RUNTIME_DIR/sandbar-0"
 		fi

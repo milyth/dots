@@ -1,0 +1,26 @@
+#!/bin/bash
+
+ips=""
+
+echo '{ "status": "Stopped" }'
+while IFS=$ips read -r -a metadata
+do
+	title=${metadata[0]:-$title}
+	artist=${metadata[1]:-$artist}
+	status=${metadata[2]:-$status}
+	position=${metadata[3]:-$position}
+	length=${metadata[4]:-$length}
+	artUrl=${metadata[5]:-$artUrl}
+
+	i() {
+		echo "\"$1\":\"$(eval $(echo echo \$$1))\""
+	}
+
+	d() {
+		echo "\"$1\":$(eval $(echo echo \$$1))"
+	}
+
+	progress=$(echo - | awk "{ print ($position/$length)*100 }")
+	echo "{$(i title),$(i artist),$(i status),$(i artUrl),$(d length),$(d position),$(d progress)}"
+
+done < <(playerctl -F metadata -f "{{title}}$ips{{artist}}$ips{{status}}$ips{{position}}$ips{{mpris:length}}$ips{{mpris:artUrl}}")

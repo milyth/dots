@@ -1,0 +1,54 @@
+#!/bin/bash
+
+getbat() {
+	level=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage | cut -d : -f 2 | cut -d % -f 1 | xargs)
+	state=$(
+		upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep state | cut -d : -f 2  | xargs
+	)
+}
+
+format_icon()
+{
+	p=$1
+
+	case 1 in
+	$((p <= 10))) echo "󰁺" ;;
+	$((p <= 20))) echo "󰁻" ;;
+	$((p <= 30)))  echo "󰁼" ;;
+	$((p <= 40))) echo "󰁽" ;;
+	$((p <= 50))) echo "󰁾" ;;
+	$((p <= 60))) echo "󰁿" ;;
+	$((p <= 70))) echo "󰂀" ;;
+	$((p <= 80))) echo "󰂁" ;;
+	$((p <= 90))) echo "󰂂" ;;
+	$((p <= 100))) echo "󰁹" ;;
+	*) echo "?" ;;
+	esac
+}
+
+display() {
+	i() {
+		echo "\"$1\":\"$(eval $(echo echo \$$1))\""
+	}
+
+	d() {
+		echo "\"$1\":$(eval $(echo echo \$$1))"
+	}
+	echo "{$(d level),$(i icon),$(i state)}"
+}
+
+getbat
+icon=$(format_icon $level)
+display
+
+while read -r _
+do
+getbat
+if [ "$state" = "discharging" ]
+then
+icon=$(format_icon $level)
+else
+icon="󰂄"
+fi
+display
+done < <(upower -i /org/freedesktop/UPower/devices/battery_BAT0 -m)

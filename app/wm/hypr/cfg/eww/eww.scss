@@ -1,0 +1,148 @@
+$rounding: 10px;
+$bgColor: #242936;
+* {
+  all: unset;
+  font-family: "Symbols Nerd Font Mono", "JetBrains Mono";
+}
+
+window {
+  background: none;
+}
+
+.workspace {
+  padding: 0.8rem;
+  border-style: solid;
+  border-radius: $rounding;
+  color: #69758c;
+}
+
+.occupied {
+  color: #cccac2;
+}
+
+.workspaces {
+  border-radius: $rounding;
+  background-color: $bgColor;
+}
+
+.box {
+  margin: 11px 0px;
+}
+
+.current {
+  background-color: #1A1F29;
+  border-radius: $rounding;
+  margin: 0.4em;
+
+  &.wp-1 {
+    color: #ffd173;
+  }
+
+  &.wp-2 {
+    color: #80bfff;
+  }
+
+  &.wp-3 {
+    color: #d5ff80;
+  }
+}
+
+.wp-label {
+  font-size: 1em;
+}
+
+.indicator {
+  margin: 0.4em;
+  background-color: #242936;
+  border-radius: 30px;
+  transition: all;
+  transition-duration: 300ms;
+}
+
+.statuses {
+  border-radius: $rounding;
+  margin: 1px 0.6em;
+  background-color: $bgColor;
+}
+
+.volume {
+  color: #d2a6ff;
+}
+
+.brightness {
+  color: #ffdfb3;
+}
+
+.media {
+  font-size: 1rem;
+  color: #73d0ff;
+}
+
+.indicator-label {
+  padding: 0.8em;
+}
+
+.clock {
+  padding: 2px;
+  border-radius: $rounding;
+  margin: 1px 0.6em;
+  background-color: $bgColor;
+}
+
+.battery {
+  color: #87d96c;
+}
+
+.m {
+  background-color: #69758c;
+  border-radius: $rounding;
+  margin: 0.3rem;
+}
+
+.AM {
+  background-color: #7fd962;
+  color: #0d1017;
+}
+
+.PM {
+  background-color: #f29668;
+  color: #131721;
+}
+
+.hour {
+  color: #ffb454;
+}
+
+.minute {
+}
+
+.prog-indicator {
+  margin: 0.4em;
+  background-color: #242936;
+  color: red;
+
+  transition: all;
+  transition-duration: 300ms;
+}
+
+.indprog-bar {
+  min-width: 5px;
+  margin: 0px 0.4em;
+
+  > trough {
+    min-width: 5px;
+    & > progress {
+      min-height: 2px;
+      background-color: #f29e74;
+    }
+  }
+}
+
+.scale-ind {
+  font-size: 1.1em;
+  margin: 3px;
+}
+
+.scale-ind-label {
+  padding: 0em;
+}

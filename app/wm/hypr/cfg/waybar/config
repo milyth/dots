@@ -1,0 +1,17 @@
+{
+    "layer": "top",
+    "exclusive": false,
+    "position": "left",
+    "width": 20,
+    "height": 30,
+    "spacing": 4,
+    "modules-left": [],
+    "modules-center": ["tray"],
+    "modules-right": [],
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    }
+
+}
+

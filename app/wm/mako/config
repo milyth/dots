@@ -1,0 +1,22 @@
+font=JetBrains Mono
+icons=1
+text-alignment=center
+default-timeout=5000
+anchor=top-center
+icon-location=right
+width=500
+text-color=#CCCAC2
+background-color=#0D1017
+
+[mode=dnd]
+invisible=1
+
+[urgency=high]
+border-color=#F26D78
+default-timeout=0
+
+[urgency=low]
+border-color=#131721
+
+[urgency=normal]
+border-color=#6C7380

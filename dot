@@ -8,10 +8,11 @@ declare -A payload=(
 	["app/wm/hypr"]="${XDG_CONFIG_HOME}/hypr"
 	["app/term/foot"]="${XDG_CONFIG_HOME}/foot"
 	["app/term/kitty"]="${XDG_CONFIG_HOME}/kitty"
+	["app/term/alacritty"]="${XDG_CONFIG_HOME}/alacritty"
 	["app/etc/fontconfig"]="${XDG_CONFIG_HOME}/fontconfig"
 	["app/shell/fish"]="${HOME}/.config/fish"
 	["app/etc/user-dirs"]="${XDG_CONFIG_HOME}/user-dirs.dirs"
-	#	["app/etc/pipewire"]="${XDG_CONFIG_HOME}/pipewire"
+	["app/wm/mako"]="${XDG_CONFIG_HOME}/mako"
 )
 
 DoInstall() {

@@ -28,4 +28,4 @@ fullscreen) grim - | tee "$out" | wl-copy -t image/png ;;
 esac
 
 test -f "$out"
-notify-send -i "${out}" "OS - Captured a screenshot" "Saved into $(basename "$out")"
+notify-send -u low -i "${out}" "OS - Captured a screenshot" "Saved into $(basename "$out")"

@@ -17,5 +17,5 @@ font:
 
 cursor:
   style:
-    shape: Beam
+    shape: Block 
     blinking: Always

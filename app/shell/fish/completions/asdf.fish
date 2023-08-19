@@ -1,0 +1,1 @@
+/home/mily/.local/share/asdf-vm/completions/asdf.fish

@@ -13,7 +13,10 @@ SETUVAR _hydro_git_118744:\x1d
 SETUVAR _hydro_git_119656:dev\x20
 SETUVAR _hydro_git_167544:main\u2022\x20
 SETUVAR _hydro_git_17150:dev\u2022\x20
+SETUVAR _hydro_git_17342:master\x20
+SETUVAR _hydro_git_17663:master\x20
 SETUVAR _hydro_git_44779:dev\u2022\x20
+SETUVAR _hydro_git_78611:dev\u2022\x20
 SETUVAR _hydro_git_98492:\x1d
 SETUVAR ayu_variant:light
 SETUVAR fish_color_autosuggestion:707A8C

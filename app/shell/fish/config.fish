@@ -2,7 +2,7 @@ set -gx PATH $PATH $HOME/.cargo/bin
 set -gx PATH $PATH $HOME/.local/bin
 set -gx ASDF_DIR $HOME/.local/share/asdf-vm
 set fish_greeting
-
+abbr -a md mkdir -p
 if test -d $ASDF_DIR
 	source $ASDF_DIR/asdf.fish
 	if not test -f $__fish_config_dir/completions/asdf.fish

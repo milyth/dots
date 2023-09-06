@@ -1,9 +1,9 @@
 require("lazy").setup {
         {
-                "EdenEast/nightfox.nvim",
+                "shaunsingh/nord.nvim",
                 priority = 1000,
                 config = function()
-                        vim.cmd "colorscheme carbonfox"
+                        vim.cmd "colorscheme nord"
                 end,
         },
 
@@ -15,18 +15,27 @@ require("lazy").setup {
         },
 
         {
-                'nvim-treesitter/nvim-treesitter',
-                event = 'BufEnter',
+                "nvim-treesitter/nvim-treesitter",
+                event = "BufEnter",
                 config = function()
-                        require 'nvim-treesitter.configs'.setup {
-                                ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "zig" },
+                        require("nvim-treesitter.configs").setup {
+                                ensure_installed = {
+                                        "c",
+                                        "lua",
+                                        "vim",
+                                        "vimdoc",
+                                        "query",
+                                        "zig",
+                                        "markdown",
+                                        "markdown_inline",
+                                },
 
                                 highlight = {
                                         enable = true,
                                         additional_vim_regex_highlighting = false,
-                                }
+                                },
                         }
-                end
+                end,
         },
 
         {
@@ -45,7 +54,23 @@ require("lazy").setup {
         {
                 "folke/noice.nvim",
                 event = "VeryLazy",
-                opts = {},
+                opts = {
+                        lsp = {
+                                override = {
+                                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                                        ["vim.lsp.util.stylize_markdown"] = true,
+                                        ["cmp.entry.get_documentation"] = false,
+                                },
+                        },
+
+                        cmdline = {
+                                enabled = false,
+                        },
+
+                        messages = {
+                                enabled = false,
+                        },
+                },
                 dependencies = {
                         "MunifTanjim/nui.nvim",
                         "rcarriga/nvim-notify",
@@ -164,8 +189,32 @@ require("lazy").setup {
                                 ensure_installed = {
                                         "lua_ls",
                                         "zls",
+                                        "lemminx",
                                 },
                         }
                 end,
+        },
+
+        {
+                "nvim-lualine/lualine.nvim",
+                event = "BufEnter",
+                opts = {
+                        options = {
+                                icons_enabled = true,
+                                theme = "auto",
+                                component_separators = { left = "", right = "" },
+                                section_separators = { left = "", right = "" },
+                        },
+                },
+        },
+
+        {
+                "nvimdev/lspsaga.nvim",
+                opts = {},
+                cmd = "Lspsaga",
+                dependencies = {
+                        "nvim-treesitter/nvim-treesitter",
+                        "nvim-tree/nvim-web-devicons",
+                },
         },
 }

@@ -12,21 +12,24 @@ return {
 		local K = require "which-key"
 
 		K.register({
-			K = { vim.lsp.buf.hover, "Hover over item" },
+			k = { ":Lspsaga hover_doc<cr>", "Hover over item" },
 			l = {
 				name = "LSP",
-				a = { vim.lsp.buf.code_action, "Run code actions" },
-				r = { vim.lsp.buf.rename, "Rename" },
+				a = { ":Lspsaga code_action<cr>", "Run code actions" },
+				r = { ":Lspsaga rename<cr>", "Rename" },
 				f = { asyncFormat, "Format" },
 			},
 
 			g = {
-				name = "GoTo",
+				name = "Goto",
 				t = { vim.lsp.buf.type_definition, "Go to the type definition" },
 				d = { vim.lsp.buf.definition, "Go to the definition" },
 				D = { vim.lsp.buf.declaration, "Go to the declaration" },
 				i = { vim.lsp.buf.implementation, "Go to the implementation" },
 				R = { vim.lsp.buf.references, "Go to references" },
+
+				k = { ":Lspsaga diagnostic_jump_prev<cr>", "Previous diagnostic" },
+				l = { ":Lspsaga diagnostic_jump_next<cr>", "Next diagnostic" },
 			},
 		}, { prefix = "<leader>", buffer = buf, noremap = true })
 		require("lsp-format").on_attach(client, buf)

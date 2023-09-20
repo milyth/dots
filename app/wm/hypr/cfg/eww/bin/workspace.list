@@ -9,7 +9,7 @@ spaces() {
 			 s/y3//
 			 s/y4/󰭹/
 			 s/y5/󰊖/
-			 s/y6//'
+			 s/y6/󱚥/'
 }
 
 spaces

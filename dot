@@ -8,6 +8,7 @@ declare -A payload=(
 	["app/wm/hypr"]="${XDG_CONFIG_HOME}/hypr"
 	["app/editor/neovim"]="${XDG_CONFIG_HOME}/nvim"
 	["app/term/alacritty"]="${XDG_CONFIG_HOME}/alacritty"
+	["app/term/foot"]="${XDG_CONFIG_HOME}/foot"
 	["app/etc/fontconfig"]="${XDG_CONFIG_HOME}/fontconfig"
 	["app/shell/fish"]="${HOME}/.config/fish"
 	["app/etc/user-dirs"]="${XDG_CONFIG_HOME}/user-dirs.dirs"

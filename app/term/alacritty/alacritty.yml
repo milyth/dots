@@ -9,7 +9,7 @@ window:
 
 font:
   normal:
-    family: JetBrains Mono
+    family: monospace 
   offset:
     y: 4
     x: 0

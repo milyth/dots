@@ -1,9 +1,19 @@
 require("lazy").setup {
+	-- {
+	-- 	"shaunsingh/nord.nvim",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.g.nord_italic = false
+	-- 		vim.g.nord_bold = false
+	-- 		vim.cmd "colorscheme nord"
+	-- 	end,
+	-- },
 	{
-		"shaunsingh/nord.nvim",
+		"catppuccin/nvim",
+		name = "catppuccin",
 		priority = 1000,
 		config = function()
-			vim.cmd "colorscheme nord"
+			vim.cmd.colorscheme "catppuccin"
 		end,
 	},
 
@@ -15,12 +25,34 @@ require("lazy").setup {
 	},
 
 	{
+		"Exafunction/codeium.vim",
+		event = "InsertEnter",
+		config = function()
+			vim.g.codeium_disable_bindings = 1
+			vim.keymap.set("i", "<C-k>", function()
+				return vim.fn["codeium#Accept"]()
+			end, { expr = true })
+			vim.keymap.set("i", "<c-;>", function()
+				return vim.fn["codeium#CycleCompletions"](1)
+			end, { expr = true })
+			vim.keymap.set("i", "<c-,>", function()
+				return vim.fn["codeium#CycleCompletions"](-1)
+			end, { expr = true })
+			vim.keymap.set("i", "<c-x>", function()
+				return vim.fn["codeium#Clear"]()
+			end, { expr = true })
+		end,
+	},
+
+	{
 		"nvim-treesitter/nvim-treesitter",
 		event = "BufEnter",
 		config = function()
 			require("nvim-treesitter.configs").setup {
 				ensure_installed = {
+					"go",
 					"c",
+					"cpp",
 					"lua",
 					"vim",
 					"vimdoc",
@@ -30,6 +62,12 @@ require("lazy").setup {
 					"markdown_inline",
 					"regex",
 					"bash",
+					"python",
+					"c_sharp",
+					"html",
+					"javascript",
+					"typescript",
+					"tsx",
 				},
 
 				highlight = {
@@ -88,6 +126,7 @@ require("lazy").setup {
 			require "lsp"
 		end,
 	},
+
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = { "rafamadriz/friendly-snippets" },
@@ -132,7 +171,10 @@ require("lazy").setup {
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
-		opts = {}, -- this is equalent to setup({}) function
+		opts = {
+			check_ts = true,
+			enable_abbr = true,
+		},
 	},
 
 	{
@@ -162,17 +204,20 @@ require("lazy").setup {
 		"nvimdev/guard.nvim",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
+			"nvimdev/guard-collection",
 		},
 		lazy = false,
 		config = function()
 			local ft = require "guard.filetype"
 			ft("lua"):fmt("lsp"):fmt "stylua"
-
-			ft("zig"):fmt("zig"):fmt {
+			ft("zig"):fmt {
 				cmd = "zig",
 				args = { "fmt", "--stdin" },
 				stdin = true,
 			}
+
+			ft("c,cpp"):fmt("clang-format"):fmt "lsp"
+			ft("python"):fmt "black"
 
 			require("guard").setup {
 				fmt_on_save = true,
@@ -193,15 +238,27 @@ require("lazy").setup {
 			require("mason-tool-installer").setup {
 				ensure_installed = {
 					"stylua",
+					"black",
+					"zls",
+					"prettier",
 				},
 			}
+
 			require("mason-lspconfig").setup {
 				ensure_installed = {
 					"lua_ls",
+					"gopls",
 					"zls",
 					"lemminx",
 					"bashls",
 					"pkgbuild_language_server",
+					"pyright",
+					"csharp_ls",
+					"html",
+					"emmet_ls",
+					"cssls",
+					"tailwindcss",
+					"tsserver",
 				},
 			}
 		end,
@@ -255,7 +312,7 @@ require("lazy").setup {
 
 	{
 		"numToStr/Comment.nvim",
-		event = "InsertEnter",
+		event = "BufEnter",
 		opts = {},
 	},
 

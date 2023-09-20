@@ -1,6 +1,13 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 hyprctl monitors -j | jq '.[] | select(.focused) | .activeWorkspace.id'
 
-socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - |
-	stdbuf -o0 awk -F '>>|,' -e '/^workspace>>/ {print $2}' -e '/^focusedmon>>/ {print $3}'
+#socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - |
+#	stdbuf -o0 awk -F '>>|,' -e '/^workspace>>/ {print $2}' -e '/^focusedmon>>/ {print $3}'
+#
+
+while read data
+do
+	payload=(${data//>>/ })
+	echo "${payload[1]}"
+done < <(socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | grep --line-buffered -w workspace)

@@ -7,6 +7,7 @@ icon-location=right
 width=500
 text-color=#CCCAC2
 background-color=#0D1017
+max-visible=1
 
 [mode=dnd]
 invisible=1

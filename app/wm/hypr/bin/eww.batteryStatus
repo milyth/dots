@@ -48,3 +48,4 @@ while read -r _; do
 	fi
 	display
 done < <(upower -i /org/freedesktop/UPower/devices/battery_BAT0 -m)
+

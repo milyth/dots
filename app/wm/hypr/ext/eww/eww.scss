@@ -1,0 +1,90 @@
+* {
+  all: unset;
+  color: #f2f4f8;
+  font-family: "Symbols Nerd Font Mono", "Iosevka SS14";
+}
+
+window {
+  background-color: #161616;
+//  border-right: 2px solid;
+//  border-color: #33b1ff;
+ // border-radius: 0;
+}
+
+
+.time {
+  font-size: 16px;
+}
+
+.launcher {
+  background-color: #7E57C2;
+  padding: 14px;
+}
+
+.workspace {
+  padding: 5px;
+}
+
+.focused {
+  background-color: #202020;
+  border-left: 5px solid;
+  border-color: #7E57C2;
+}
+
+
+.workspaces {
+  //padding-top: 10px;
+}
+
+.clock {
+  padding-bottom: 5px;
+}
+
+.statuses {
+  padding-bottom: 10px;
+}
+
+.prog { 
+  min-width: 5px;
+  margin: 1px 1em;
+
+
+  > trough {
+    min-width: 15px;
+    border-radius: 15px;
+    
+    & > progress {
+      min-height: 1.9px;
+      background-color: #BDBDBD;
+    }
+  }
+}
+
+
+tooltip {
+  //padding: 5px 5px 5px 5px;
+  margin: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: #282828;
+  background-image: none;
+  background-color: #161616;
+}
+
+.warning {
+  color: #2dc7c4; 
+}
+
+.warning > label {
+  color: #FFA726; 
+}
+
+.warning > trough > progress {
+  background-color: #FFA726; 
+}
+
+
+.inactive > label {
+  color: #404040;
+}

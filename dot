@@ -7,10 +7,11 @@ declare -A payload=(
 	["app/dev/git"]="${XDG_CONFIG_HOME}/git"
 	["app/wm/hypr"]="${XDG_CONFIG_HOME}/hypr"
 	["app/editor/neovim"]="${XDG_CONFIG_HOME}/nvim"
+	["app/editor/helix"]="${XDG_CONFIG_HOME}/helix"
 	["app/term/alacritty"]="${XDG_CONFIG_HOME}/alacritty"
-	["app/term/foot"]="${XDG_CONFIG_HOME}/foot"
+	["app/term/wezterm"]="${XDG_CONFIG_HOME}/wezterm"
 	["app/etc/fontconfig"]="${XDG_CONFIG_HOME}/fontconfig"
-	["app/shell/fish"]="${HOME}/.config/fish"
+	["app/shell/zsh/config"]="${HOME}/.zshrc"
 	["app/etc/user-dirs"]="${XDG_CONFIG_HOME}/user-dirs.dirs"
 	["app/wm/mako"]="${XDG_CONFIG_HOME}/mako"
 )

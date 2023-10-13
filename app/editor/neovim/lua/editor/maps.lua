@@ -1,4 +1,5 @@
 local K = require "which-key"
+local harpoonMark = require "harpoon.mark"
 
 local opts = {
 	silent = true,
@@ -9,7 +10,7 @@ vim.keymap.set({ "n" }, "<ESCAPE>", "<cmd>nohl<cr>", opts)
 K.register({
 	f = {
 		name = "file",
-		t = { "<cmd>Neotree<cr>", "File Tree" },
+		t = { "<cmd>Neotree toggle<cr>", "File Tree" },
 	},
 
 	t = {
@@ -26,7 +27,11 @@ K.register({
 		k = { "<cmd>BufferLineCycleNext<cr>", "Cycle buffer to right" },
 
 		c = { "<cmd>bd<cr>", "Close Buffer" },
+		d = { harpoonMark.toggle_mark, "Toggle mark" },
+		a = { harpoonMark.add_mark, "add mark" },
 	},
+
+	m = { "<cmd>Telescope harpoon marks<cr>", "View marks" },
 
 	[" "] = { "<cmd>Telescope find_files<cr>", "Find File" },
 }, { prefix = "<leader>" })

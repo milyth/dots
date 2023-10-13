@@ -1,46 +1,44 @@
 require("lazy").setup {
-	-- {
-	-- 	"shaunsingh/nord.nvim",
-	-- 	priority = 1000,
-	-- 	config = function()
-	-- 		vim.g.nord_italic = false
-	-- 		vim.g.nord_bold = false
-	-- 		vim.cmd "colorscheme nord"
-	-- 	end,
-	-- },
 	{
-		"catppuccin/nvim",
-		name = "catppuccin",
+		"EdenEast/nightfox.nvim",
 		priority = 1000,
 		config = function()
-			vim.cmd.colorscheme "catppuccin"
+			vim.cmd.colorscheme "carbonfox"
 		end,
 	},
 
 	{
 		"rcarriga/nvim-notify",
+		lazy = false,
 		config = function()
 			vim.notify = require "notify"
 		end,
 	},
 
 	{
-		"Exafunction/codeium.vim",
+		"Exafunction/codeium.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"hrsh7th/nvim-cmp",
+		},
 		event = "InsertEnter",
 		config = function()
-			vim.g.codeium_disable_bindings = 1
-			vim.keymap.set("i", "<C-k>", function()
-				return vim.fn["codeium#Accept"]()
-			end, { expr = true })
-			vim.keymap.set("i", "<c-;>", function()
-				return vim.fn["codeium#CycleCompletions"](1)
-			end, { expr = true })
-			vim.keymap.set("i", "<c-,>", function()
-				return vim.fn["codeium#CycleCompletions"](-1)
-			end, { expr = true })
-			vim.keymap.set("i", "<c-x>", function()
-				return vim.fn["codeium#Clear"]()
-			end, { expr = true })
+			vim.api.nvim_create_autocmd("InsertEnter", {
+				group = vim.api.nvim_create_augroup("CodeiumAuGroup", { clear = true }),
+				pattern = "*",
+				callback = function()
+					local config = require "completion.config"
+					require("cmp").setup.buffer {
+						sources = vim.tbl_extend(
+							"keep",
+							config.sources.completion,
+							{ { name = "codeium" } }
+						),
+					}
+				end,
+			})
+
+			require("codeium").setup {}
 		end,
 	},
 
@@ -50,6 +48,7 @@ require("lazy").setup {
 		config = function()
 			require("nvim-treesitter.configs").setup {
 				ensure_installed = {
+					"haskell",
 					"go",
 					"c",
 					"cpp",
@@ -80,7 +79,7 @@ require("lazy").setup {
 
 	{
 		"folke/which-key.nvim",
-		event = "VeryLazy",
+		keys = { "<Space>" },
 		init = function()
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300
@@ -140,7 +139,8 @@ require("lazy").setup {
 
 	{
 		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
+		event = "BufEnter",
+		module = "cmp",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"saadparwaiz1/cmp_luasnip",
@@ -159,12 +159,30 @@ require("lazy").setup {
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.2",
-		dependencies = { "nvim-lua/plenary.nvim", "gbrlsnchs/telescope-lsp-handlers.nvim" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"gbrlsnchs/telescope-lsp-handlers.nvim",
+			"ThePrimeagen/harpoon",
+		},
 		lazy = true,
 		cmd = "Telescope",
 		config = function()
 			local telescope = require "telescope"
 			telescope.load_extension "lsp_handlers"
+			telescope.load_extension "harpoon"
+
+			telescope.setup {
+				defaults = {
+					file_ignore_patterns = {
+						"node_modules",
+						"build",
+						"dist",
+						"yarn.lock",
+						"~",
+						".cache/",
+					},
+				},
+			}
 		end,
 	},
 
@@ -179,7 +197,8 @@ require("lazy").setup {
 
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		event = "VeryLazy",
+		event = "BufEnter",
+		main = "ibl",
 		opts = {},
 	},
 
@@ -202,10 +221,12 @@ require("lazy").setup {
 
 	{
 		"nvimdev/guard.nvim",
+
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
 			"nvimdev/guard-collection",
 		},
+
 		lazy = false,
 		config = function()
 			local ft = require "guard.filetype"
@@ -246,6 +267,8 @@ require("lazy").setup {
 
 			require("mason-lspconfig").setup {
 				ensure_installed = {
+					"grammarly",
+					"bashls",
 					"lua_ls",
 					"gopls",
 					"zls",
@@ -290,12 +313,8 @@ require("lazy").setup {
 	{
 		"linrongbin16/lsp-progress.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
+		module = "lsp-progress",
 		config = function()
-			vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
-			vim.api.nvim_create_autocmd("User LspProgressStatusUpdated", {
-				group = "lualine_augroup",
-				callback = require("lualine").refresh,
-			})
 			require("lsp-progress").setup()
 		end,
 	},
@@ -312,16 +331,23 @@ require("lazy").setup {
 
 	{
 		"numToStr/Comment.nvim",
-		event = "BufEnter",
+		keys = { "<Space>" },
 		opts = {},
 	},
 
-	{ "akinsho/bufferline.nvim", version = "*", dependencies = "nvim-tree/nvim-web-devicons", opts = {} },
+	{
+		"akinsho/bufferline.nvim",
+		version = "*",
+		dependencies = "nvim-tree/nvim-web-devicons",
+		opts = {},
+		event = "BufEnter",
+	},
 
 	{
 		"nvim-neorg/neorg",
 		build = ":Neorg sync-parsers",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		ft = "norg",
 		config = function()
 			require("neorg").setup {
 				load = {
@@ -329,6 +355,7 @@ require("lazy").setup {
 					["core.concealer"] = {}, -- Adds pretty icons to your documents
 					["core.completion"] = { config = { engine = "nvim-cmp" } }, -- completions hah!
 					["core.export.markdown"] = {}, -- Mark the fall
+					["core.export"] = {},
 					["core.dirman"] = { -- Manages Neorg workspaces
 						config = {
 							workspaces = {
@@ -339,5 +366,10 @@ require("lazy").setup {
 				},
 			}
 		end,
+	},
+
+	{
+		"stevearc/dressing.nvim",
+		opts = {},
 	},
 }

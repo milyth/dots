@@ -1,0 +1,4 @@
+#!/bin/bash
+set -eux
+
+eww -c ~/.config/hypr/ext/eww $@

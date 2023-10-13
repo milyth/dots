@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
-wallpaper=~/.config/hypr/data/Eye.png
+
 gnome_schema="org.gnome.desktop.interface"
 gtk_theme="adw-gtk3-dark"
 icon_theme="Papirus-Dark"
-cursor_theme="Adwaita"
+cursor_theme="phinger-cursors"
 cursor_size=16
 font_name="IBM Plex Sans"
 
@@ -17,6 +17,5 @@ gsettings set "$gnome_schema" cursor-size "$cursor_size"
 gsettings set "$gnome_schema" font-name "$font_name"
 hyprctl setcursor "$cursor_theme" "$cursor_size"
 
-# >= Wallpaper
-echo "preload = $wallpaper
-wallpaper = eDP-1,$wallpaper" >~/.config/hypr/hyprpaper.conf
+
+

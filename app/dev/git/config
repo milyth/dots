@@ -9,9 +9,9 @@
 	pager = true
 
 [user]
-	email = milyth@duck.com
-	name = Mily
-	signingkey = C7D793999D622321D1A333574AA43EC8BCAADC91 
+	email = ry.diffusion@proton.me
+	name = Ry 
+	signingkey = 5F4F42730DCFFE902820A7B71B30CEBE496E6FF5 
 
 [commit]
 	gpgsign = true

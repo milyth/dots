@@ -15,8 +15,8 @@ return {
                         k = { ":Lspsaga hover_doc<cr>", "Hover over item" },
                         l = {
                                 name = "LSP",
-                                a = { ":Lspsaga code_action<cr>", "Run code actions" },
-                                r = { ":Lspsaga rename<cr>", "Rename" },
+                                a = { vim.lsp.buf.code_action, "Run code actions" },
+                                r = {  vim.lsp.buf.rename, "Rename" },
                                 f = { asyncFormat, "Format" },
                         },
 

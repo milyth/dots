@@ -1,5 +1,4 @@
 local configure = require("lsp.utils").configure
-
 configure "lua_ls" {
 	settings = {
 		Lua = {

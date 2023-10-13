@@ -1,7 +1,9 @@
 local luasnip = require "luasnip"
 local cmp = require "cmp"
--- local cmp_autopairs = require "nvim-autopairs.completion.cmp"
--- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+local config = require "completion.config"
+
+local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 cmp.setup {
 	snippet = {
@@ -38,12 +40,7 @@ cmp.setup {
 			end
 		end, { "i", "s" }),
 	},
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" },
-		{ name = "buffer" },
-		{ name = "path" },
-	},
+	sources = config.sources.completion,
 }
 
 cmp.setup.filetype("gitcommit", {

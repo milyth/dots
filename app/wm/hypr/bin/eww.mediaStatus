@@ -24,3 +24,4 @@ do
 	echo "{$(i title),$(i artist),$(i status),$(i artUrl),$(d length),$(d position),$(d progress)}"
 
 done < <(playerctl -F metadata -f "{{title}}$ips{{artist}}$ips{{status}}$ips{{position}}$ips{{mpris:length}}$ips{{mpris:artUrl}}")
+

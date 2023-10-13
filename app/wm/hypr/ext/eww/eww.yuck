@@ -1,0 +1,122 @@
+(defpoll timer :interval "1m" "~/.config/hypr/bin/eww.date")
+(deflisten workspaces "hyprland-workspaces _")
+(deflisten battery "~/.config/hypr/bin/eww.batteryStatus")
+(deflisten bluetoothBattery "~/.config/hypr/bin/eww.v2bluetoothBatteryStatus")
+(deflisten media "~/.config/hypr/bin/eww.mediaStatus")
+(deflisten pipewire "~/.config/hypr/bin/eww.pipewireStatus")
+(deflisten bright "~/.config/hypr/bin/eww.brightLevel")
+
+(defwidget launcher []
+  (button 
+    :onclick "~/.config/hypr/bin/launcher"
+    :timeout "30000ms"
+
+    (box
+      :valign "start"
+      :halign "center"
+      :class "launcher"
+      (label :text ""))))
+
+(defwidget clock []
+  (box
+    :orientation "v"
+    :class "clock"
+    :halign "baseline"
+    :space-evenly false
+
+    (label :class "time" :text "${timer.hour}")    
+    (label :class "time" :text "${timer.minute}")
+    (label :class "time" :text "${timer.m}")
+  ))
+
+(defwidget moon [?onscroll ?class ?tip value text]
+ (eventbox :onscroll "${onscroll}"
+  (box :orientation "v" :space-evenly false :class "${class}"
+   :halign "center" :tooltip "${tip}"
+   (label :text "${text}")          
+   (progress
+    :class "prog ${class}"
+    :flipped false
+    :value "${value}"
+    :orientation "h"
+   )
+  )))
+
+(defwidget pipewire []
+  (moon
+    :value "${pipewire.value}"
+    :text "${pipewire.icon}"
+    :onscroll "~/.config/hypr/bin/impure.changeVolume {}"
+  )
+)
+
+(defwidget bluetoothBattery []
+  (moon
+    :tip {bluetoothBattery.status == "Connected" ? "${bluetoothBattery.name}: ${bluetoothBattery.level}%" : "There is no device connected."}
+    :value "${bluetoothBattery.level}"
+    :class "${bluetoothBattery.level == 0 ? "inactive" : ""} ${bluetoothBattery.level <= 20 && bluetoothBattery.level > 1 ? "warning" : ""}"
+    :text "${bluetoothBattery.status == "Connected" ? "󰂱" : "󰂲"}"
+    :onscroll "echo {}"
+  )
+)
+
+(defwidget bright []
+  (moon
+    :value "${bright.value}"
+    :text "${bright.icon}"
+    :onscroll "~/.config/hypr/bin/impure.changeBrightLevel {}"  ))
+
+(defwidget statuses []
+  (box :orientation "v" :class "statuses"
+       :space-evenly true
+
+      (bluetoothBattery)
+      (bright)
+      (pipewire)
+      (label :text "${battery.icon}")
+  ))
+
+
+(defwidget workspaces []
+  (eventbox :onscroll "hyprctl dispatch workspace `echo {} | sed 's/up/+/\' | sed 's/down/-/'`1"
+    (box :class "workspaces" :orientation "v"
+    (for i in workspaces
+        (button
+          :onclick "hyprctl dispatch workspace ${i.id}"
+          :class "workspace ${i.class} ${i.active ? "focused" : "unfocused"}"
+          "${i.name}")))))
+          
+
+(defwidget leftBar []
+  (box :orientation "v" :class "box"
+    :space-evenly true
+
+    (box :class "start"
+      :orientation "v" :valign "start" :halign "center"
+      :space-evenly false
+      (launcher)
+      (workspaces)
+    )
+
+
+     (box :orientation "v" :valign "end" :halign "center"
+      :space-evenly false
+      (statuses)
+      (clock))
+    ))
+
+(defwindow leftbar
+  :monitor 0
+  :namespace "eww"
+
+  :anchor "center left"
+  :exclusive "true"
+  :geometry (geometry
+    :x "0"
+    :y "0"
+    :anchor "center left"
+    :width "32px"
+    :height "100%")
+  
+  (leftBar)
+)

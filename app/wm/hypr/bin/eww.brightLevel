@@ -30,7 +30,7 @@ while read -r _; do
 
 	getbright
 
-  if -z $level; then
+  if test -z $level; then
     level=$cachedBright
   fi
 

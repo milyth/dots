@@ -11,3 +11,8 @@ vim.g.loaded_spec = 0
 vim.g.loaded_syncolor = 0
 vim.g.loaded_zig = 0
 vim.g.zig_fmt_autosave = 0
+
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	pattern = { "*.norg" },
+	command = "set wrap",
+})

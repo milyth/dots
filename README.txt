@@ -7,7 +7,7 @@
 ============================================================
 
 ** Your operating system?
- * Fedora Workstation 38
+ * Fedora Workstation 39
 
 * How to install?
 Run: ./dot install

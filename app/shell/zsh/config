@@ -2,6 +2,10 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
   exec Hyprland
 fi
 
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
 if ! test -d $HOME/.asdf
 then
@@ -11,6 +15,12 @@ then
   asdf plugin add nodejs
   asdf plugin add golang
 fi
+
+export ZVM_INSTALL="$HOME/.zvm/self"
+export PATH="$PATH:$HOME/.zvm/bin"
+export PATH="$PATH:$ZVM_INSTALL/"
+
+
 
 . "$HOME/.asdf/asdf.sh"
 fpath=(${ASDF_DIR}/completions $fpath)
@@ -24,6 +34,8 @@ zstyle ':completion:*' menu select=long-list select=0
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
 zstyle ':completion:*' verbose true
 zstyle ":completion:*:commands" rehash 1
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.cache/zcache
 
 zstyle :compinstall filename "$HOME/.zshrc"
 
@@ -37,6 +49,41 @@ bindkey -e
 setopt hist_expire_dups_first hist_find_no_dups hist_ignore_all_dups hist_ignore_space inc_append_history hist_verify
 setopt auto_list auto_menu interactivecomments auto_pushd
 setopt combining_chars
+zmodload zsh/net/tcp
+
+
+# Plugins
+zinit light zsh-users/zsh-autosuggestions
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+function command_not_found_handler {
+    local purple='\e[1;35m' bright='\e[0;1m' green='\e[1;32m' reset='\e[0m'
+    printf 'zsh: command not found: %s\n' "$1"
+    local entries=(
+        ${(f)"$(/usr/bin/pacman -F --machinereadable -- "/usr/bin/$1")"}
+    )
+    if (( ${#entries[@]} ))
+    then
+        printf "${bright}$1${reset} may be found in the following packages:\n"
+        local pkg
+        for entry in "${entries[@]}"
+        do
+            # (repo package version file)
+            local fields=(
+                ${(0)entry}
+            )
+            if [[ "$pkg" != "${fields[2]}" ]]
+            then
+                printf "${purple}%s/${bright}%s ${green}%s${reset}\n" "${fields[1]}" "${fields[2]}" "${fields[3]}"
+            fi
+            printf '    /%s\n' "${fields[4]}"
+            pkg="${fields[2]}"
+        done
+    fi
+    return 127
+}
+
+
 PS1='%F{blue}%~ %(?.%F{green}.%F{red})%#%f '
 
 alias ls='ls --color=always'

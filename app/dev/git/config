@@ -10,14 +10,14 @@
 
 [user]
 	email = ry.diffusion@proton.me
-	name = Ry 
-	signingkey = 5F4F42730DCFFE902820A7B71B30CEBE496E6FF5 
+	name = Ryster 
+	signingkey = 4BF5E8D6DC95603D675F328761BCED4163773EE2
 
 [commit]
 	gpgsign = true
 
 [init]
-	defaultBranch = dev 
+	defaultBranch = develop 
 
 [branch "autosetup"]
 	rebase = yes
